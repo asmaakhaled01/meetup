@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Attendens</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Event</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @attendens.each do |attenden| %>
+      <tr>
+        <td><%= attenden.user %></td>
+        <td><%= attenden.event %></td>
+        <td><%= link_to 'Show', attenden %></td>
+        <td><%= link_to 'Edit', edit_attenden_path(attenden) %></td>
+        <td><%= link_to 'Destroy', attenden, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Attenden', new_attenden_path %>

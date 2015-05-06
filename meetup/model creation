@@ -1,0 +1,17 @@
+
+ 	rails g scaffold users name:string email:string password:string is_admin:boolean 
+
+ 	rails g scaffold groups name:string location:string 
+
+ 	rails g scaffold members group:references user:references 
+
+ 	rails g scaffold events name:string desc:text location:string date:datetime group:references 
+
+ 	rails g scaffold photos group:references 
+
+ 	rails g scaffold interests interest:string group:references 
+
+ 	rails g scaffold attendens  user:references event:references 
+
+
+
