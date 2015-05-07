@@ -1,33 +1,48 @@
+
+<style>
+#error_explanation {
+  color: red;
+  background-color: white;
+  border: white;
+}
+
+.field_with_errors {
+    background-color: white;
+}
+</style>
+
 <%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+
+
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      The form contains <%= pluralize(@user.errors.count, "error") %>.
     </div>
-  <% end %>
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
-  <div class="field">
+
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
+    <%= f.text_field :name, class: 'form-control' %>
+
     <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
+    <%= f.text_field :email, class: 'form-control' %>
+    <% if @flag==0  %>
     <%= f.label :password %><br>
-    <%= f.text_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :is_admin %><br>
-    <%= f.check_box :is_admin %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= f.password_field :password, class: 'form-control' %>
+    <% end %>
+
+   <%= f.hidden_field :is_admin, value: 0 %>
+  <%= f.file_field :image %>
+
+    <%= f.submit :submot , class: "btn btn-primary" %>
+
 <% end %>
