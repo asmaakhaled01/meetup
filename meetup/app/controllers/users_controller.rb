@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy ]
+ skip_before_action :verify_authenticity_token
 
 
 
@@ -8,6 +9,12 @@ def getlogin
 end 
 
 def calender
+    
+end
+
+def search
+  @events = Event.where("date > ?", params[:date])
+  
 end
 
 def login

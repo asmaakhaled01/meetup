@@ -1,0 +1,18 @@
+<%= link_to 'Back', 'mycalender' %>
+
+		<% @events.each do |event| %>
+			<small><strong> <%= event.date %> </strong></small>
+			<div class="well">
+				<div class="row">
+	    			<div class="col-md-1">
+	    				<%= image_tag event.ev_image.url(:thumb) %>
+	    			</div>
+	    			<div class="col-md-11">
+						<h2> <%= link_to event.name , event %> </h2>
+						<strong><%= event.date %></strong>
+					</div>
+				</div>
+			</div>
+	 	<% end %>
+
+

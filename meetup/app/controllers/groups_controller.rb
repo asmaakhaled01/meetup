@@ -73,6 +73,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :location, :user_id)
+      params.require(:group).permit(:name, :location, :user_id, :g_image)
     end
 end

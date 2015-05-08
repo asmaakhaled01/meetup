@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   
   resources :groups do
-  resources :interests end
+  resources :interests 
+
+end
 
   #resources :members
   #resources :attendens
@@ -20,16 +22,16 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
    root 'groups#index'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
   # Example of named route that can be invoked with purchase_url(id: product.id)
      get 'signup' => 'users#new' #, as: :purchase
 
      get 'login' => 'users#getlogin'
      post 'login' => 'users#login'
 
+     
+     
 
+     
      get 'start_group' => 'groups#new'
      post 'start_group' => 'groups#create'
 
@@ -40,7 +42,9 @@ Rails.application.routes.draw do
      post 'attend' => 'events#attend'
 
      get 'calender' =>'events#calender'
+     
      get 'mycalender' =>'users#calender'
+     post 'search' => 'users#search'
 
      post 'find' =>'events#find'
   resources :events do
