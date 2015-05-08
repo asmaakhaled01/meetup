@@ -1,23 +1,25 @@
 <p id="notice"><%= notice %></p>
 
+<%= link_to "Log out", logout_path, method: "delete" %>
+<%= current_user.id %>
 <p>
-  <strong>Name:</strong>
-  <%= @user.name %>
+	<strong>Name:</strong>
+	<%= @user.name %>
 </p>
 
 <p>
-  <strong>Email:</strong>
-  <%= @user.email %>
+	<strong>Email:</strong>
+	<%= @user.email %>
 </p>
 
 <p>
-  <strong>Password:</strong>
-  <%= @user.password %>
+	<strong>Password:</strong>
+	<%= @user.password %>
 </p>
 
 <p>
-  <strong>Is admin:</strong>
-  <%= @user.is_admin %>
+	<strong>Is admin:</strong>
+	<%= @user.is_admin %>
 </p>
 
 <p> <%= image_tag @user.image.url %> <%= image_tag @user.image.url(:medium) %> <%= image_tag @user.image.url(:thumb) %> </p>

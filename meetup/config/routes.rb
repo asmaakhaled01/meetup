@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   
   resources :groups do
   resources :interests 
-
 end
 
   #resources :members
