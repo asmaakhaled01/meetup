@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507000558) do
+ActiveRecord::Schema.define(version: 20150508184206) do
 
   create_table "attendens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -35,23 +35,33 @@ ActiveRecord::Schema.define(version: 20150507000558) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "events", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.text     "desc",       limit: 65535
-    t.string   "location",   limit: 255
+    t.string   "name",                  limit: 255
+    t.text     "desc",                  limit: 65535
+    t.string   "location",              limit: 255
     t.datetime "date"
-    t.integer  "group_id",   limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "group_id",              limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "ev_image_file_name",    limit: 255
+    t.string   "ev_image_content_type", limit: 255
+    t.integer  "ev_image_file_size",    limit: 4
+    t.datetime "ev_image_updated_at"
   end
 
   add_index "events", ["group_id"], name: "index_events_on_group_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "location",   limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "user_id",    limit: 4
+    t.string   "name",                 limit: 255
+    t.string   "location",             limit: 255
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "user_id",              limit: 4
+    t.string   "g_image_file_name",    limit: 255
+    t.string   "g_image_content_type", limit: 255
+    t.integer  "g_image_file_size",    limit: 4
+    t.datetime "g_image_updated_at"
+    t.text     "description",          limit: 65535
+    t.string   "MembersName",          limit: 255
   end
 
   add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
