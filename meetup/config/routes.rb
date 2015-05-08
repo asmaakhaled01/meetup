@@ -9,9 +9,6 @@ end
   #resources :interests
   #resources :photos
 
-
-
-
   resources :users
 
 
@@ -23,14 +20,12 @@ end
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
      get 'signup' => 'users#new' #, as: :purchase
-
-     get 'login' => 'users#getlogin'
-     post 'login' => 'users#login'
-
      
-     
+     get 'login' => 'sessions#new' 
+     post 'login' => 'sessions#create' 
+     delete 'logout' => 'sessions#destroy'
 
-     
+
      get 'start_group' => 'groups#new'
      post 'start_group' => 'groups#create'
 
