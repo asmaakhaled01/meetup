@@ -32,7 +32,7 @@ end
      get 'start_event' => 'events#new'
      post 'start_event' => 'events#create'
 
-     post 'join' => 'groups#join'
+     get 'join' => 'groups#join'
      post 'attend' => 'events#attend'
 
      get 'calender' =>'events#calender'

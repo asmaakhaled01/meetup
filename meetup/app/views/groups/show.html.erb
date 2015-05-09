@@ -1,19 +1,53 @@
-<p id="notice"><%= notice %></p>
+<style>
+h1{
+	text-align: center;
+}
+</style>
 
-<p>
-  <strong>Name:</strong>
-  <%= @group.name %>
-</p>
+<div class="container-fluid">
+	<div class="jumbotron" style="background-image: url('<%= @group.g_image %>'); width: 100%;height:300px;no-repeat">
+	</div>
+</div> 
 
-<p>
-  <strong>Location:</strong>
-  <%= @group.location %>
-</p>
+<div class="container">
+	<h1 class="text-primary"><%= @group.name %></h1>
+	<h1>Number of Members : <%= @num_members %></h1>
+	<div class="col-md-4"><%= link_to 'Create Event', {:controller => "events", :action => "new", :group_id => @group.id }, class:"btn btn-primary" %></div>
+	<div class="col-md-4"><%= link_to 'Calender', new_event_path , class:"btn btn-info" %></div>
 
-<p>
-  <strong>User:</strong>
-  <%= @group.user %>
-</p>
+	<% if @flag_join==1 %>
+	<div class="col-md-4" id="join"><%= link_to 'Join', {:controller => "groups", :action => "join", :user_id => current_user.id, :group_id => @group.id }, class:"btn btn-success" %></div>
+	<% end %>
 
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+	<h2>Listing Events</h2>
+	<% @events.each do |event| %>
+	<div class="thumbnail">
+		<div class="caption">
+			<table align="center">
+				<tr>
+					<td>
+						<%= image_tag event.ev_image.url(:medium) ,class: "thumbnail" %>
+					</td>
+					<td>
+						<h1>
+							<%= link_to event.name, event %>
+						</h1>
+						<h4>
+							Date: <%= event.date %>
+						</h4>
+						<%= link_to 'Edit', edit_event_path(event) %> | <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
+					</td>
+
+				</tr>
+
+			</table>
+		</div>
+	</div>
+			<% end %>
+			<%= link_to 'Edit', edit_group_path(@group) %> |
+			<%= link_to 'Back', groups_path %>
+</div>
+
+<script>
+
+</script>

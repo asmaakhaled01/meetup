@@ -46,7 +46,7 @@
 
   <div class="field">
      <!-- value:current_user.id -->
-      <%= f.hidden_field :user_id, value:1 %>
+      <%= f.hidden_field :user_id, value:current_user.id %>
   </div>
 
   <%= f.file_field :g_image %>
