@@ -34,8 +34,12 @@
               <h3><%= group.name %></h3>
               <p>here is a brief description of the group </p>
               <p> <%= link_to 'Show', group , class:"btn btn-primary" %>
-                  <%= link_to 'Edit', edit_group_path(group),class:"btn btn-default" %>
-                  <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger" %>
+                <% if logged_in? %>
+                  <% if group.user_id==current_user.id %>
+                    <%= link_to 'Edit', edit_group_path(group),class:"btn btn-default" %>
+                    <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger" %>
+                  <% end %>
+                <% end %>  
                   </p>
             </div>
           </div>
