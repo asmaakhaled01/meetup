@@ -38,7 +38,7 @@ end
      get 'calender' =>'events#calender'
      
      get 'mycalender' =>'users#calender'
-     post 'search' => 'users#search'
+     get 'search' => 'users#search'
 
      post 'find' =>'events#find'
   resources :events do

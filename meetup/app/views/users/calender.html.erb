@@ -12,9 +12,11 @@
 		<div class="row">
 			<div class="col-md-9">
 				please select a date -->
-				<form id="myForm" method="POST" action="search">
+				<form id="myForm" method="GET" action="search">
 					<input type="hidden" id="search" value="test" name="date" />
 				</form>
+
+				<div id="result"></div> 
 
 			</div>
 			<div class="col-md-3">
@@ -29,20 +31,39 @@
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "geocomplete" %> 
 		
 		<script>
 
 			$("#datepicker").datepicker({
-			   onSelect: function(dateText, inst) {
 
+			   onSelect: function(dateText, inst) {
+			   		document.getElementById("result").innerHTML="";
 			      var dateAsString = dateText; //the first parameter of this function
 			      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
+			      console.log(dateAsObject);
 			      x = Number(dateAsObject.getMonth())+1;
 			      console.log(x);
 			   	  var date=(dateAsObject.getFullYear()+"-"+ x +"-"+dateAsObject.getDate()+" 00:00:00");
 			   	  console.log(date);
 			   	  document.getElementById("search").value = date;
-			   	  document.getElementById("myForm").submit();
+			   	 $.ajax({
+				   	  type: "GET",
+				   	  url: "search", 
+				   	  dataType: "JSON", 
+				   	  data: { 'date':date }, 
+				   	  success: function(data) { 
+				   	  		for (var i = 0; i < data.length; i++) {
+				   	  			var div = document.createElement("div");
+				   	  			div.setAttribute("class" , "well");
+				   	  			div.innerHTML = data[i].location;
+				   	  			document.getElementById("result").appendChild(div);
+				   	  		};
+				   	  	
+				   	  	 }
+			   	  });
+
+			   	  // document.getElementById("myForm").submit();
 			   }
 			});
 

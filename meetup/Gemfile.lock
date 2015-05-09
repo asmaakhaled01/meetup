@@ -56,6 +56,7 @@ GEM
     columnize (0.9.0)
     debug_inspector (0.0.2)
     erubis (2.7.0)
+    event-calendar (2.3.3)
     execjs (2.5.2)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
@@ -159,6 +160,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
+  event-calendar
   jbuilder (~> 2.0)
   jquery-rails
   mysql2
