@@ -46,20 +46,29 @@ class GroupsController < ApplicationController
   def edit
   end
 
-  # POST /groups
-  # POST /groups.json
-  def create
-    @group = Group.new(group_params)
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render :show, status: :created, location: @group }
-      else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+
+
+def create 
+  @group = Group.new(group_params) 
+  @inter = Interest.new(interest_params) 
+  puts "------------------------------"
+  puts @inter['interest']
+  group_id=Group.last.id 
+  
+  array = @inter['interest'].split(/, /)
+    array.size.times do |i|
+    @interst_group=Interest.new(:group_id=> group_id,:interest=> array[i])
+    @interst_group.save
+  end 
+
+  
+   if @group.save 
+    redirect_to @group 
+  else render 'new' 
+  end 
+end
+
+
 
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json
@@ -93,6 +102,10 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :location, :user_id, :g_image)
+      params.require(:group).permit(:name, :location, :user_id, :g_image , :description , :MembersName)
+    end
+
+    def interest_params
+      params.require(:interest).permit(:interest) 
     end
 end

@@ -5,7 +5,9 @@ class UsersController < ApplicationController
 
 
 def search
+   
   @events = Event.where("date > ?", params[:date])
+    render partial: 'find'
   
 end
 

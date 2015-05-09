@@ -1,3 +1,48 @@
+<style type="text/css" media="screen">
+
+
+fieldset { width: 320px; margin-top: 20px}
+fieldset strong { display: block; margin: 0.5em 0 0em; }
+fieldset input { width: 95%; }
+
+ul span { color: #999; }
+
+
+
+body {
+  color: #333;
+}
+
+body, input, button {
+  line-height: 1.4;
+  font: 13px Helvetica,arial,freesans,clean,sans-serif;
+}
+
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+#examples a {
+  text-decoration: underline;
+}
+
+#geocomplete { width: 200px}
+
+.map_canvas { 
+  width: 600px; 
+  height: 400px; 
+  margin: 10px 20px 10px 0;
+}
+
+#multiple li { 
+  cursor: pointer; 
+  text-decoration: underline; 
+}
+</style>
+
+
 <%= form_for(@group) do |f| %>
   <% if @group.errors.any? %>
     <div id="error_explanation">
@@ -13,18 +58,23 @@
 
   <div class="well">
     <%= f.label :location %><br>
-    <%= f.text_field :location %>
+    <%= f.text_field :location, id:"location" %>
   </div>
 
 
   <div class="well">
-    <%= f.label :interests %><br>
-    <%= f.text_field :interests, id:"inter" %>
-    </br>
-    Pick up to 15 topics
+    
+    <%= fields_for :interest do |t| %>
+       <%= t.label :interest %>
+       <br>
+       <%= t.text_field :interest, id:"interest" ,value:"tyytytytyty" %>
+       <br/> 
+        Pick up to 15 topics
     </br>
     <input type="button" id="art" class="btn btn-default" value="Art" name="Art" />
     <input type="button" id="food" class="btn btn-default" value="Food" name="Food" />  
+
+    <% end %>  
   </div>
 
 
@@ -44,12 +94,17 @@
     <%= f.text_field :MembersName%>
   </div> 
 
-  <div class="field">
-     <!-- value:current_user.id -->
-      <%= f.hidden_field :user_id, value:current_user.id %>
-  </div>
 
+
+ <div class="well">
+   <%= f.label :image %><br>
   <%= f.file_field :g_image %>
+</div>
+
+<div >
+  <%= f.hidden_field :user_id, value:current_user.id %>
+</div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
@@ -62,7 +117,7 @@
         var value = $( "#art" ).val()+", ";
         $( "#art" ).hide();
         str = str + value
-        $( "#inter" ).val(str);
+        document.getElementById('interest').value = str;
       
     });
 
@@ -70,7 +125,71 @@
         var value = $( "#food" ).val()+", ";
         $( "#food" ).hide();
         str = str + value
-        $( "#inter" ).val(str);
+        document.getElementById('interest').value = str;
+        
     });
 
+</script>
+
+
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<%= javascript_include_tag "geocomplete" %> 
+<script>
+
+  var geocoder;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+} 
+//Get the latitude and the longitude;
+function successFunction(position) {
+
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+       
+    codeLatLng(lat, lng)
+}
+
+function errorFunction(){
+    alert("Geocoder failed");
+}
+geocoder = new google.maps.Geocoder();
+  function codeLatLng(lat, lng) {
+
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+      console.log(results)
+        if (results[1]) {
+
+            for (var i=0; i<results[0].address_components.length; i++) {
+            for (var b=0;b<results[0].address_components[i].types.length;b++) {
+
+
+                if (results[0].address_components[i].types[b] == "establishment") {
+                    city= results[0].address_components[i];
+                    break;
+                }
+
+                if (results[0].address_components[i].types[b] == "country") {
+                    country= results[0].address_components[i];
+                    break;
+                }
+            }
+        }
+
+        document.getElementById("location").value = city.short_name+","+country.short_name;
+        $("#location").geocomplete(); 
+       
+
+        } else {
+       
+        }
+      } else {
+        
+      }
+    });
+  }
 </script>

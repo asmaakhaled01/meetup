@@ -18,7 +18,7 @@ h1{
 
 
   <% if @flag_attend==1 %>
-  <div class="col-md-4" id="join"><%= link_to 'Attend', {:controller => "events", :action => "attend", :user_id => current_user.id, :event_id => @event.id }, class:"btn btn-success" %></div>
+  <div class="col-md-4" ><%= link_to 'Attend', {:controller => "events", :action => "attend", :user_id => current_user.id, :event_id => @event.id }, class:"btn btn-success" %></div>
   <% end %>
 
         <h2>
@@ -32,9 +32,9 @@ h1{
         </h2>     
           Comments
 <% if logged_in? %>
-  <% if event.user_id==current_user.id %>
+
 <%= link_to 'Edit', edit_event_path(@event) %> 
-<% end %>
+
 <% end %>
    
   </div>  

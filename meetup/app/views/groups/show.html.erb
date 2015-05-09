@@ -19,10 +19,13 @@ h1{
 	<% end %>
 	<div class="col-md-4"><%= link_to 'Calender', new_event_path , class:"btn btn-info" %></div>
 
+<% if current_user.id != @group.user_id  %>
 	<% if @flag_join==1 %>
 	<div class="col-md-4" id="join"><%= link_to 'Join', {:controller => "groups", :action => "join", :user_id => current_user.id, :group_id => @group.id }, class:"btn btn-success" %></div>
 	<% end %>
+	<% end %>
 
+		
 	<h2>Listing Events</h2>
 	<% @events.each do |event| %>
 	<div class="thumbnail">
@@ -40,7 +43,7 @@ h1{
 							Date: <%= event.date %>
 						</h4>
 	<% if logged_in? %>
-	<% if event.user_id==current_user.id %>
+	<% if @group.user_id==current_user.id %>
 						<%= link_to 'Edit', edit_event_path(event) %> | <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
 									<% end %>
 	<% end %>
