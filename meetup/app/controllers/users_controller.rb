@@ -7,10 +7,7 @@ class UsersController < ApplicationController
 def search
    
   @events = Event.where("date > ?", params[:date])
-    respond_to do |format|
-    format.html
-    format.json{render json: @events}
-  end
+    render partial: 'find'
   
 end
 
@@ -20,33 +17,39 @@ end
 
 
   # GET /users
-  # GET /users.json
   def index
-    @users = User.all
-  end
+    if logged_in?
+      if current_user.is_admin == true
+        @users = User.all
+      else
+        redirect_to root_url    
+      end
+    else
+      redirect_to root_url  
+    end  
+end
 
   # GET /users/1
-  # GET /users/1.json
   def show
   end
 
   # GET /users/new
   def new
-    @flag=0
+    @flag=0  #display password field in from
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
-    @flag=1
+    @flag=1 #hidden password field from from
   end
 
   # POST /users
-  # POST /users.json
   def create
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
+        UserMailer.signup_confirmation(@user).deliver
         format.html { redirect_to login_path }
         flash[:success] = 'User was successfully created.' # Not quite right!
         format.json { render :show, status: :created, location: @user }
@@ -58,7 +61,6 @@ end
   end
 
   # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -73,7 +75,6 @@ end
   end
 
   # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     @user.destroy
     respond_to do |format|

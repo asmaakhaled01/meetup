@@ -31,7 +31,7 @@
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<%= javascript_include_tag "application" %>
-		<%= javascript_include_tag "geocomplete" %> 
+
 		
 		<script>
 
@@ -52,13 +52,9 @@
 				   	  url: "search", 
 				   	  dataType: "JSON", 
 				   	  data: { 'date':date }, 
-				   	  success: function(data) { 
-				   	  		for (var i = 0; i < data.length; i++) {
-				   	  			var div = document.createElement("div");
-				   	  			div.setAttribute("class" , "well");
-				   	  			div.innerHTML = data[i].location;
-				   	  			document.getElementById("result").appendChild(div);
-				   	  		};
+				   	  complete: function(data) { 
+				   	  		console.log(data.responseText);
+				   	  		$( "#result" ).html(data.responseText);
 				   	  	
 				   	  	 }
 			   	  });

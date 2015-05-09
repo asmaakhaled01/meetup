@@ -1,19 +1,34 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
+  def join
+    @group = Group.find(params[:group_id])
+    @member = Member.new(:user_id => params[:user_id], :group_id => params[:group_id])
+    @member.save
+    redirect_to @group
+  end
 
-
-def join
-# join logic rediect to current group
-end
   # GET /groups
-  # GET /groups.json
   def index
     @groups = Group.all
   end
 
   # GET /groups/1
-  # GET /groups/1.json
   def show
+    group_id=params[:id]
+    @num_members= Member.where(:group_id => group_id).count
+    if logged_in?
+      user_id=current_user.id
+      @member = Member.find_by(user_id: user_id ,group_id: group_id )
+      if @member
+        @flag_join=0
+      else 
+        @flag_join=1
+      end
+    else
+      @flag_join=0  
+    end  
+    @group = Group.find(group_id)
+    @events = (Event.where(:group_id => group_id)).order("date") 
   end
 
   # GET /groups/new
@@ -48,24 +63,6 @@ def create
 end
 
 
-  # POST /groups
-  # POST /groups.json
-  # def create
-
-  #     @group = Group.new(group_params)
-
-  #     @interest = Interest.new(interest_params)
-
-  #   respond_to do |format|
-  #     if @group.save
-  #       format.html { redirect_to @group, notice: 'Group was successfully created.' }
-  #       format.json { render :show, status: :created, location: @group }
-  #     else
-  #       format.html { render :new }
-  #       format.json { render json: @group.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json

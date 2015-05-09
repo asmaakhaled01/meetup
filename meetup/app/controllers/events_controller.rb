@@ -21,10 +21,13 @@ end
   # GET /events/1
   # GET /events/1.json
   def show
+    event_id=params[:id]
+    #@group_name=params[:group_name]
   end
 
   # GET /events/new
   def new
+    @group_id=params[:group_id]
     @event = Event.new
   end
 
