@@ -2,7 +2,10 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
 def attend
-
+    @event = Event.find(params[:event_id])
+    @attend = Attenden.new(:user_id => params[:user_id], :event_id => params[:event_id])
+    @attend.save
+    redirect_to @event
 end
 
 def calender
@@ -22,7 +25,19 @@ end
   # GET /events/1.json
   def show
     event_id=params[:id]
-    #@group_name=params[:group_name]
+    @num_attendens= Attenden.where(:event_id => event_id).count
+    if logged_in?
+      user_id=current_user.id
+      @attenden = Attenden.find_by(user_id: user_id ,event_id: event_id)
+      if @attenden
+        @flag_attend=0
+      else 
+        @flag_attend=1
+      end
+    else
+      @flag_attend=0  
+    end  
+    @event = Event.find(event_id)
   end
 
   # GET /events/new
@@ -39,17 +54,13 @@ end
   # POST /events.json
   def create
     @event = Event.new(event_params)
-    puts "*******************"
-    puts @event.group_id
+
 
     users = Member.where( :group_id =>  @event.group_id )
 
-    puts "============================================="
-    puts users.size
     users.each do|n|
        @val= User.find(n.user_id)
        UserMailer.event_creation(@val,@event).deliver
-
     end
 
     respond_to do |format|

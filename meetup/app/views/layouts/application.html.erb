@@ -26,23 +26,30 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav" style="margin-left: 20%;">
-        <li class="active" style="margin-left:30px;"><a href="#" style="font-size: 30px;
+
+      <ul class="nav navbar-nav">
+        <li class="active" style="margin-left:30px;" ><%= link_to 'Groups', root_url ,style:"font-size: 30px;
 color: #9C1010;
 background-color: transparent;
 border-bottom: 7px solid #9C1010; padding-bottom: 30px; padding-left: 0px;
 padding-right: 0px;
-">Groups <span class="sr-only">(current)</span></a></li>
-        <li style="margin-left:30px;"><%= link_to 'Create Group', new_group_path,style:"font-size:30px; padding-bottom: 30px; padding-left: 0px;
-padding-right: 0px; color: #9C1010;" %></li>
+" %></li>
+        <li><%= link_to 'Create Group', new_group_path %></li>
+
      
       </ul>
      
       <ul class="nav navbar-nav navbar-right">
-        <li style="margin-left:30px;"><a href="#" style="font-size:30px; padding-bottom: 30px; padding-left: 0px;
-padding-right: 0px; color: #9C1010;">sign up</a></li>
-        <li style="margin-left:30px;"><a href="#" style="font-size:30px; padding-bottom: 30px; padding-left: 0px;
-padding-right: 0px; color: #9C1010;">login</a></li>
+
+        <% if !logged_in? %>
+        <li style="margin-left:30px;" ><%= link_to 'Signup', signup_path ,style:"font-size:30px; padding-bottom: 30px; padding-left: 0px;padding-right: 0px; color: #9C1010;"%></li>
+        <li style="margin-left:30px;"><%= link_to 'Login', login_path , style:"font-size:30px; padding-bottom: 30px; padding-left: 0px;padding-right: 0px; color: #9C1010;"%></li>
+        <% end %>
+        <% if logged_in? %>
+         <li><%= link_to current_user do %><%= image_tag current_user.image.url(:thumb), class: "img-circle"%><% end %></li>
+        <li><%= link_to 'Logout', logout_path, method: "delete" %></li>
+        <% end %>
+
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
+  
   def join
     @group = Group.find(params[:group_id])
     @member = Member.new(:user_id => params[:user_id], :group_id => params[:group_id])
@@ -18,7 +19,7 @@ class GroupsController < ApplicationController
     @num_members= Member.where(:group_id => group_id).count
     if logged_in?
       user_id=current_user.id
-      @member = Member.find_by(user_id: user_id ,group_id: group_id )
+      @member = Member.find_by(user_id: user_id ,:group_id => group_id )
       if @member
         @flag_join=0
       else 
@@ -33,7 +34,12 @@ class GroupsController < ApplicationController
 
   # GET /groups/new
   def new
-    @group = Group.new
+    if logged_in?
+      @group = Group.new
+    else
+      flash[:danger] = 'Please Login first'
+      redirect_to login_path
+    end  
   end
 
   # GET /groups/1/edit
