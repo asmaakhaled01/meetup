@@ -39,6 +39,18 @@ end
   # POST /events.json
   def create
     @event = Event.new(event_params)
+    puts "*******************"
+    puts @event.group_id
+
+    users = Member.where( :group_id =>  @event.group_id )
+
+    puts "============================================="
+    puts users.size
+    users.each do|n|
+       @val= User.find(n.user_id)
+       UserMailer.event_creation(@val,@event).deliver
+
+    end
 
     respond_to do |format|
       if @event.save
