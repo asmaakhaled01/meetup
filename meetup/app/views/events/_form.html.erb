@@ -1,3 +1,49 @@
+<style type="text/css" media="screen">
+
+
+fieldset { width: 320px; margin-top: 20px}
+fieldset strong { display: block; margin: 0.5em 0 0em; }
+fieldset input { width: 95%; }
+
+ul span { color: #999; }
+
+
+
+body {
+  color: #333;
+}
+
+body, input, button {
+  line-height: 1.4;
+  font: 13px Helvetica,arial,freesans,clean,sans-serif;
+}
+
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+#examples a {
+  text-decoration: underline;
+}
+
+#geocomplete { width: 200px}
+
+.map_canvas { 
+  width: 600px; 
+  height: 400px; 
+  margin: 10px 20px 10px 0;
+}
+
+#multiple li { 
+  cursor: pointer; 
+  text-decoration: underline; 
+}
+</style>
+
+
+
 <%= form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
@@ -11,26 +57,99 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="well">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
+
+  <div class="well">
     <%= f.label :desc %><br>
     <%= f.text_area :desc %>
   </div>
-  <div class="field">
+
+  <div class="well">
     <%= f.label :location %><br>
-    <%= f.text_field :location %>
+    <%= f.text_field :location , id:"location" %>
   </div>
-  <div class="field">
+
+  <div class="well">
     <%= f.label :date %><br>
     <%= f.datetime_select :date %>
   </div>
+
   <%= f.hidden_field :group_id, value: @group_id %>
-  <%= f.file_field :ev_image %>
+
+  <div class="well">
+     <%= f.label :image %><br>
+    <%= f.file_field :ev_image %>
+  </div>
 
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<%= javascript_include_tag "geocomplete" %> 
+
+<script type="text/javascript">
+var geocoder;
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+} 
+//Get the latitude and the longitude;
+function successFunction(position) {
+
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;   
+    codeLatLng(lat, lng)
+}
+
+function errorFunction(){
+    alert("Geocoder failed");
+}
+geocoder = new google.maps.Geocoder();
+  function codeLatLng(lat, lng) {
+
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+      console.log(results)
+        if (results[1]) {
+
+            for (var i=0; i<results[0].address_components.length; i++) {
+            for (var b=0;b<results[0].address_components[i].types.length;b++) {
+
+
+                if (results[0].address_components[i].types[b] == "establishment") {
+                    city= results[0].address_components[i];
+                    break;
+                }
+
+                if (results[0].address_components[i].types[b] == "country") {
+                    country= results[0].address_components[i];
+                    break;
+                }
+            }
+        }
+
+        document.getElementById("location").value = city.short_name+","+country.short_name;
+        $("#location").geocomplete(); 
+        //document.getElementById("geocomplete").geocomplete();
+
+
+        } else {
+          alert("No results found");
+        }
+      } else {
+        alert("Geocoder failed due to: " + status);
+      }
+    });
+  }
+
+  </script>

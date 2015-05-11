@@ -55,6 +55,15 @@ end
   # POST /events.json
   def create
     @event = Event.new(event_params)
+
+
+    users = Member.where( :group_id =>  @event.group_id )
+
+    users.each do|n|
+       @val= User.find(n.user_id)
+       UserMailer.event_creation(@val,@event).deliver
+    end
+
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
