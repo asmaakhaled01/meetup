@@ -98,7 +98,8 @@ a {
 <button id="btn" >Search</button> 
 
 
-
+<!-- case normal user -->
+<% if logged_in? and current_user.is_admin == false %>
 
   <div id="result" class="row">
     <% @groups.each do |group| %>
@@ -121,7 +122,39 @@ a {
     </div>
     <% end %>
   </div>
-  
+ <% else %>
+
+<%= link_to 'Create Group', new_group_path %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th text-align="center">Group Image</th>
+          <th text-align="center">Group Name </th>
+          <th text-align="center">Group Description</th>
+          <th text-align="center">Group Location</th>
+          <th text-align="center">Show</th>
+          <th text-align="center">Edit</th>
+          <th text-align="center">Delete</th>
+
+        </tr>
+      </thead>
+      <tbody>
+      <% @groups.each do |group| %>
+        <tr>
+          <td text-align="center"><%= image_tag group.g_image.url(:thumb) , class: "thumbnail" %></td>
+          <td text-align="center"><strong><%= group.name %></strong></td>
+          <td text-align="center"><%= group.description %></td>
+          <td text-align="center"><%= group.location %></td>
+          <td><%= link_to 'Show', group , class:"btn btn-primary" %></td>
+           <td><%= link_to 'Edit', edit_group_path(group),class:"btn btn-default" %></td>
+           <td> <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger" %></td>
+          
+        </tr>
+        <% end %>
+    </table>
+
+
+ <% end %> 
 </div>
 
 

@@ -41,7 +41,8 @@
     <% end %>
 
    <%= f.hidden_field :is_admin, value: 0 %>
-  <%= f.file_field :image %>
+     <%= f.label :image %><br>
+    <%= f.file_field :image %>
 
     <%= f.submit :submot , class: "btn btn-primary" %>
 

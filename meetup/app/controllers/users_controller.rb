@@ -76,6 +76,22 @@ end
 
   # DELETE /users/1
   def destroy
+    #delete members
+    groups = Group.where(:user_id => @user.id)
+    puts "=========================================oooo"
+    groups.each do |group|
+      Event.where(:group_id => group.id).destroy_all
+
+      Member.where(:group_id => group.id).destroy_all
+      Interest.where(:group_id => group.id).destroy_all
+    end 
+    
+    Group.where(:user_id => @user.id).destroy_all
+    
+    Member.where(:user_id => @user.id).destroy_all
+    Event.where(:user_id => @user.id).destroy_all
+    Attenden.where(:user_id => @user.id).destroy_all
+
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url }

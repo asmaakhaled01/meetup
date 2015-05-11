@@ -107,6 +107,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name, :desc, :location, :date, :group_id , :ev_image)
+      params.require(:event).permit(:name, :desc, :location, :date, :group_id , :ev_image , :user_id)
     end
 end

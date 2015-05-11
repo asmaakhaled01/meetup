@@ -28,10 +28,8 @@
 
 	    </div>
 
-		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		<%= javascript_include_tag "application" %>
-
+		<%= javascript_include_tag "jquery-ui" %>
+		<%= javascript_include_tag "jquery-1.10.2" %>
 		
 		<script>
 
@@ -41,11 +39,11 @@
 			   		document.getElementById("result").innerHTML="";
 			      var dateAsString = dateText; //the first parameter of this function
 			      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
-			      console.log(dateAsObject);
+			 
 			      x = Number(dateAsObject.getMonth())+1;
 			      console.log(x);
 			   	  var date=(dateAsObject.getFullYear()+"-"+ x +"-"+dateAsObject.getDate()+" 00:00:00");
-			   	  console.log(date);
+			   	
 			   	  document.getElementById("search").value = date;
 			   	 $.ajax({
 				   	  type: "GET",

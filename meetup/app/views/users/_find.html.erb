@@ -1,0 +1,8 @@
+<% @events.each do |event|  %>
+	<div class="well">
+		<h3><%= link_to event.name , event %></h3>
+		<br>
+		<%= event.date %>
+	</div>
+	
+<% end %>

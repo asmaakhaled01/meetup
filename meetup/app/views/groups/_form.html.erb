@@ -40,21 +40,32 @@ a {
   cursor: pointer; 
   text-decoration: underline; 
 }
+
+#error_explanation {
+  color: red;
+  background-color: white;
+  border: white;
+}
+
+.field_with_errors {
+    background-color: white;
+}
 </style>
 
 
 <%= form_for(@group) do |f| %>
   <% if @group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
-
-      <ul>
-      <% @group.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      The form contains <%= pluralize(@group.errors.count, "error") %>.
     </div>
-  <% end %>
+    <ul>
+    <% @group.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
   <div class="well">
     <%= f.label :location %><br>
@@ -103,18 +114,21 @@ a {
 
 <div >
   <%= f.hidden_field :user_id, value:current_user.id %>
-  <%= f.hidden_field :lang, id:lang %>
-  <%= f.hidden_field :lat, id:lat %>
+  <%= f.hidden_field :lang, id:"lang" %>
+  <%= f.hidden_field :lat, id:"lat" %>
 </div>
 
   <div class="actions">
-    <%= f.submit, id: submit %>
+    <%= f.submit %>
   </div>
 <% end %>
 
 
 <script>
-$( "#submit" ).click(function() {
+var submit = document.getElementByName("commit")[0];
+
+submit.click(function() {
+  alert("hereee");
   var geocoder2 = new google.maps.Geocoder();
   var address = document.getElementById("geocomplete").value;
   geocoder2.geocode( { 'address': address}, function(results, status) {

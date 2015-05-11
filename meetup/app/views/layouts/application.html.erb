@@ -1,15 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Meetup</title>
-	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-	<%= csrf_meta_tags %>
+  <title>Meetup</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
 </head>
 
 
 
 <body>
+<!-- addmin case -->
+
+<% if logged_in? and current_user.is_admin == true %>
+  <nav class="navbar navbar-default"> 
+    <div class="container-fluid">
+     <!-- Brand and toggle get grouped for better mobile display --> 
+     <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> 
+      <span class="sr-only">Toggle navigation</span> 
+      <span class="icon-bar"></span> 
+      <span class="icon-bar"></span> 
+      <span class="icon-bar"></span> 
+      </button> 
+     
+       </div> <!-- Collect the nav links, forms, and other content for toggling --> 
+       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
+
+       <ul class="nav navbar-nav"> <li class="active"><%= link_to 'Groups', root_url %></li> 
+              <li><%= link_to 'Users', users_path %></li> 
+              </ul> 
+
+
+       
+
+
+      <ul class="nav navbar-nav navbar-right">
+       <% if !logged_in? %>
+        <li><%= link_to 'Signup', signup_path %></li>
+         <li><%= link_to 'Login', login_path %></li> 
+         <% end %> 
+         <% if logged_in? %> 
+         <li><%= link_to current_user do %>
+              <%= image_tag current_user.image.url(:thumb), class: "img-circle"%>
+          <% end %></li>
+           <li><%= link_to 'Logout', logout_path, method: "delete" %></li> 
+           <% end %>
+            </ul>
+             </div><!-- /.navbar-collapse --> 
+             </div><!-- /.container-fluid -->
+              </nav>
+
+
+<% else %>
+<!-- user case -->
 
 <nav class="navbar navbar-default" >
   <div class="container-fluid container">
@@ -34,7 +78,11 @@ background-color: transparent;
 border-bottom: 7px solid #9C1010; padding-bottom: 30px; padding-left: 0px;
 padding-right: 0px;
 " %></li>
-        <li><%= link_to 'Create Group', new_group_path %></li>
+        <li style="margin-left:30px;"><%= link_to 'Create Group', new_group_path , style:"font-size: 30px;
+color: #9C1010;
+background-color: transparent;
+border-bottom: 7px solid #9C1010; padding-bottom: 30px; padding-left: 0px;
+padding-right: 0px;" %></li>
 
      
       </ul>
@@ -56,12 +104,15 @@ padding-right: 0px;
 </nav>
 
 
-   <div class="container" >
+   
+
+   </div>
+<% end %>
+
+<div class="container" >
     <% flash.each do |message_type, message| %>
     <div class="alert alert-<%= message_type %>"><%= message %></div>
     <% end %>
-
-   </div>
 
 <%= yield %>
 

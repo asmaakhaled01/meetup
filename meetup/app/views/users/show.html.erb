@@ -1,7 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to "Log out", logout_path, method: "delete" %>
-<%= current_user.is_admin %>
+
 <p>
 	<strong>Name:</strong>
 	<%= @user.name %>
@@ -12,17 +11,8 @@
 	<%= @user.email %>
 </p>
 
-<p>
-	<strong>Password:</strong>
-	<%= @user.password %>
-</p>
 
-<p>
-	<strong>Is admin:</strong>
-	<%= @user.is_admin %>
-</p>
-
-<p> <%= image_tag @user.image.url %> <%= image_tag @user.image.url(:medium) %> <%= image_tag @user.image.url(:thumb) %> </p>
+<p> <%= image_tag @user.image.url(:thumb) %> </p>
 
 <% if current_user.id==@user.id or current_user.is_admin==true %> 
 <%= link_to 'Edit', edit_user_path(@user) %> |

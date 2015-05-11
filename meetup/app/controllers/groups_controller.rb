@@ -87,6 +87,13 @@ end
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
+    puts "================================"
+    puts @group.id
+    # delete event
+    Event.where(:group_id => @group.id).destroy_all
+    # delete members
+    Member.where(:group_id => @group.id).destroy_all
+    Interest.where(:group_id => @group.id).destroy_all
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
