@@ -4,6 +4,7 @@ has_many :events
 has_many :interests
 has_many :members
 has_many :users, :through => :members
+geocoded_by :name, :latitude => :lat , :longitude => :lang
 
 belongs_to :user
 

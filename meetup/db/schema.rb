@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509103401) do
+ActiveRecord::Schema.define(version: 20150511090912) do
 
   create_table "attendens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 20150509103401) do
     t.datetime "g_image_updated_at"
     t.text     "description",          limit: 65535
     t.string   "MembersName",          limit: 255
+    t.string   "lang",                 limit: 255
+    t.string   "lat",                  limit: 255
   end
 
   add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree

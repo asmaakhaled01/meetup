@@ -1,13 +1,56 @@
+<style type="text/css" media="screen">
+form { width: 300px; float: left; margin-left: 20px}
+
+fieldset { width: 320px; margin-top: 20px}
+fieldset strong { display: block; margin: 0.5em 0 0em; }
+fieldset input { width: 95%; }
+
+ul span { color: #999; }
+
+
+input, button {
+  line-height: 1.4;
+  font: 13px Helvetica,arial,freesans,clean,sans-serif;
+}
+
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+#examples a {
+  text-decoration: underline;
+}
+
+#geocomplete { width: 200px}
+
+.map_canvas { 
+  width: 600px; 
+  height: 400px; 
+  margin: 10px 20px 10px 0;
+}
+
+#multiple li { 
+  cursor: pointer; 
+  text-decoration: underline; 
+}
+</style>
+
+
+
+
 <div class="container-fluid"  style="padding-left: 0px; padding-right:0px;">
   <div class="jumbotron" style="background-image: url('<%= asset_path( '4.jpg' ) %>');width: 100%;
-height: 600px;
-background-repeat: no-repeat;
-background-origin: center center;
-background-size: cover; padding-left: 0px; padding-right: 0px; margin-left:0px;margin-right:0px; ">
+    height: 600px;
+    background-repeat: no-repeat;
+    background-origin: center center;
+    background-size: cover; padding-left: 0px; padding-right: 0px; margin-left:0px;margin-right:0px; ">
   </div>
 
 </div>
-   
+
+
 <div class="container">
   <div class="row">
     <div class="col-md-4">
@@ -16,11 +59,11 @@ background-size: cover; padding-left: 0px; padding-right: 0px; margin-left:0px;m
         <input type="text" class="form-control" placeholder="Search">
       </div>
     </div>
-  <div class="col-md-2"> miles </div>
-  <div class="col-md-2"> location </div>
-  <div class="col-md-2">
-    <%= link_to 'My Calender', mycalender_path %>
-  </div>
+    <div class="col-md-2"> miles </div>
+    <div class="col-md-2"> location </div>
+    <div class="col-md-2">
+      <%= link_to 'My Calender', mycalender_path %>
+    </div>
 
   </div>
 </div>
@@ -29,26 +72,171 @@ background-size: cover; padding-left: 0px; padding-right: 0px; margin-left:0px;m
 
   <p id="notice"><%= notice %></p>
 
-  <div class="row">
+
+<select id="interest" name="interest">
+  <option value="any">any</option>
+  <option value="interest1">interest1</option>
+  <option value="interest2">interest2</option>
+  <option value="interest3">interest3</option>
+</select>
+
+<input id="search_text" name="search_text" type="text" placeholder="find meetups" value="" />
+
+<input id="geocomplete" name="geocomplete" type="text" placeholder="Type in an address" value="" />
+
+<select id="option" name="option">
+  <option value="1">1 mile</option>
+  <option value="3">3 miles</option>
+  <option value="5">5 miles</option>
+  <option value="any distance">any distance</option>
+  <input type="hidden" name="long" id ="long"/>
+  <input type="hidden" name="lat" id ="lat"/>
+</select>
+
+
+
+<button id="btn" >Search</button> 
+
+
+
+
+  <div id="result" class="row">
     <% @groups.each do |group| %>
-        <div class="col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <%= image_tag group.g_image.url(:thumb) %>
-            <div class="caption">
-              <h3><%= group.name %></h3>
-              <p>here is a brief description of the group </p>
-              <p> <%= link_to 'Show', group , class:"btn btn-primary" %>
-                <% if logged_in? %>
-                  <% if group.user_id==current_user.id %>
-                    <%= link_to 'Edit', edit_group_path(group),class:"btn btn-default" %>
-                    <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger" %>
-                  <% end %>
-                <% end %>  
-                  </p>
-            </div>
-          </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <%= image_tag group.g_image.url(:thumb) %>
+        <div class="caption">
+          <h3><%= group.name %></h3>
+          <p>here is a brief description of the group </p>
+          <p> <%= link_to 'Show', group , class:"btn btn-primary" %>
+            <% if logged_in? %>
+            <% if group.user_id==current_user.id %>
+            <%= link_to 'Edit', edit_group_path(group),class:"btn btn-default" %>
+            <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger" %>
+            <% end %>
+            <% end %>  
+          </p>
         </div>
+      </div>
+    </div>
     <% end %>
   </div>
   
 </div>
+
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<%= javascript_include_tag "geocomplete" %>  
+
+<script type="text/javascript"> 
+
+$( "#btn" ).click(function() {
+
+  alert("here");
+  var lat = "29.905923799999997" ;
+  var lng = "31.192707400000003";
+  
+  document.getElementById("long").value = lng; 
+  document.getElementById("lat").value = lat; 
+
+  var option = document.getElementById("option").value;
+  var search_text = document.getElementById("search_text").value;
+  var interest = document.getElementById("interest").value;
+
+  var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
+
+  posting.done(function( data ) {
+
+    $("#result").html(data);
+
+
+  });
+  var geocoder2 = new google.maps.Geocoder();
+  var address = document.getElementById("geocomplete").value;
+  geocoder2.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK)
+    {
+      var lat = results[0].geometry.location.A ;
+      var lng = results[0].geometry.location.F;
+      
+      document.getElementById("long").value = lng; 
+      document.getElementById("lat").value = lat; 
+
+      var option = document.getElementById("option").value;
+      var search_text = document.getElementById("search_text").value;
+
+
+      var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
+
+      posting.done(function( data ) {
+
+        $("#result").html(data);
+
+
+      });
+
+
+
+    }
+  });
+
+});
+
+
+var geocoder;
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+} 
+
+function successFunction(position) {
+
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
+  document.getElementById("long").value = lng; 
+  document.getElementById("lat").value = lat;    
+  codeLatLng(lat, lng)
+}
+
+function errorFunction(){
+  alert("Geocoder failed");
+}
+geocoder = new google.maps.Geocoder();
+function codeLatLng(lat, lng) {
+
+  var latlng = new google.maps.LatLng(lat, lng);
+  geocoder.geocode({'latLng': latlng}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      //console.log(results)
+      if (results[1]) {
+
+        for (var i=0; i<results[0].address_components.length; i++) {
+          for (var b=0;b<results[0].address_components[i].types.length;b++) {
+//console.log(results[0].address_components[i].types[b])
+
+            if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+              city=results[0].address_components[i];
+              break;
+            }
+
+            if (results[0].address_components[i].types[b] == "country"  || results[0].address_components[i].types[b] == "administrative_area_level_2"  ) {
+              country= results[0].address_components[i];
+              break;
+            }
+          }
+        }
+        document.getElementById("geocomplete").value =city.short_name+","+country.short_name;
+        $("#geocomplete").geocomplete(); 
+        
+
+      } else {
+        
+      }
+    } else {
+      
+    }
+  });
+}
+</script> 
+

@@ -103,15 +103,49 @@ a {
 
 <div >
   <%= f.hidden_field :user_id, value:current_user.id %>
+  <%= f.hidden_field :lang, id:lang %>
+  <%= f.hidden_field :lat, id:lat %>
 </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit, id: submit %>
   </div>
 <% end %>
 
 
 <script>
+$( "#submit" ).click(function() {
+  var geocoder2 = new google.maps.Geocoder();
+  var address = document.getElementById("geocomplete").value;
+  geocoder2.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK)
+    {
+      var lat = results[0].geometry.location.A ;
+      var lng = results[0].geometry.location.F;
+      
+      document.getElementById("lang").value = lng; 
+      document.getElementById("lat").value = lat; 
+
+      var option = document.getElementById("option").value;
+      var search_text = document.getElementById("search_text").value;
+
+
+      var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
+
+      posting.done(function( data ) {
+
+        $("#result").html(data);
+
+
+      });
+
+
+
+    }
+  });
+
+});
+
     var str = "" ;
     $( "#art" ).click(function() {
         var value = $( "#art" ).val()+", ";

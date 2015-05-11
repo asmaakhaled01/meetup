@@ -94,6 +94,33 @@ end
     end
   end
 
+def find
+  @interest = params[:interest];
+  @search_options =  params[:option];
+  @search_text =  params[:search_text];
+  if ! ['any'].include?(@interest)
+      @interests  = Interest.select('group_id').where("interest = ? ", @interest );
+      if @interests.length >= 1       
+        groups_ids = Array.new
+        @interests.each do |title|
+          groups_ids.push(title.group_id)
+        end
+        if ['1', '3', '5'].include?(@search_options)
+          @groups = Group.near([params[:lat], params[:long]], @search_options).where("id in (?) ", groups_ids );
+        else
+          @groups = Group.where("id in (?) ", groups_ids );
+        end  
+      else 
+        @groups = Group.near([params[:lat], params[:long]], @search_options).where("name like ?", '%'+@search_text+'%')  
+      end  
+  elsif ['1', '3', '5'].include?(@search_options)
+    @groups = Group.near([params[:lat], params[:long]], @search_options).where("name like ?", '%'+@search_text+'%')
+  else
+    @groups = Group.where("name like ?", '%'+@search_text+'%')
+  end 
+  render partial: "find";
+end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_group
@@ -102,7 +129,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :location, :user_id, :g_image , :description , :MembersName)
+      params.require(:group).permit(:name, :location, :user_id, :g_image , :description , :MembersName , :lat ,:lang)
     end
 
     def interest_params
