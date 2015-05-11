@@ -72,12 +72,15 @@ a {
 
   <p id="notice"><%= notice %></p>
 
+<%= csrf_meta_tag %> 
 
 <select id="interest" name="interest">
   <option value="any">any</option>
-  <option value="interest1">interest1</option>
-  <option value="interest2">interest2</option>
-  <option value="interest3">interest3</option>
+  <option value="Science">Science</option>
+  <option value="Fun">Fun</option>
+  <option value="Food">Food</option>
+  <option value="Art">Art</option>
+  <option value="Computer">Computer</option>
 </select>
 
 <input id="search_text" name="search_text" type="text" placeholder="find meetups" value="" />
@@ -157,7 +160,6 @@ a {
  <% end %> 
 </div>
 
-
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <%= javascript_include_tag "geocomplete" %>  
@@ -165,26 +167,7 @@ a {
 <script type="text/javascript"> 
 
 $( "#btn" ).click(function() {
-
-  alert("here");
-  var lat = "29.905923799999997" ;
-  var lng = "31.192707400000003";
   
-  document.getElementById("long").value = lng; 
-  document.getElementById("lat").value = lat; 
-
-  var option = document.getElementById("option").value;
-  var search_text = document.getElementById("search_text").value;
-  var interest = document.getElementById("interest").value;
-
-  var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
-
-  posting.done(function( data ) {
-
-    $("#result").html(data);
-
-
-  });
   var geocoder2 = new google.maps.Geocoder();
   var address = document.getElementById("geocomplete").value;
   geocoder2.geocode( { 'address': address}, function(results, status) {
@@ -198,13 +181,13 @@ $( "#btn" ).click(function() {
 
       var option = document.getElementById("option").value;
       var search_text = document.getElementById("search_text").value;
-
+      var interest = document.getElementById("interest").value;
 
       var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
-
+            
       posting.done(function( data ) {
 
-        $("#result").html(data);
+           $("#result").html(data);
 
 
       });
@@ -246,7 +229,6 @@ function codeLatLng(lat, lng) {
 
         for (var i=0; i<results[0].address_components.length; i++) {
           for (var b=0;b<results[0].address_components[i].types.length;b++) {
-//console.log(results[0].address_components[i].types[b])
 
             if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
               city=results[0].address_components[i];

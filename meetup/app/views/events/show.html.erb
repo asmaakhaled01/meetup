@@ -34,24 +34,6 @@ h1{
 
 
 
- <script type="text/javascript"> 
- 
-$( "#btn" ).click(function() {
-alert("lol");
-  var user_id = 1;
-  var comment = document.getElementById("comment").value;
-  var event_id = 2;
- 
-  var posting = $.post( "comments/create", { body: comment , user_id: user_id , event_id: event_id,} );
-
-  posting.done(function( data ) {
-
-    alert(data);
-
-  }
-
-}
-</script>
 
 
 
@@ -64,14 +46,32 @@ alert("lol");
       </tr>
       <% end %>
 
+        
 
-      <tr>
-        <input type="text" name="comment" id="comment"/>
-        <button name="btn" id="btn">add comment</button>
-
-      </tr>
+      
  </table>
 
+<input type="text"  id="comment"/>
+<input type="button"  id="btn" value="btn"/>
+
+ <script type="text/javascript"> 
+ 
+ $( "#btn" ).click(function(){
+  var user_id = 1;
+  var body = document.getElementById("comment").value;
+  var event_id = 2;
+  var posting = $.post( "/comments.json", { body: body, user_id: user_id , event_id: event_id} , function( data ) {
+  alert( "lol"); // John
+}, "json");
+
+
+
+
+ 
+
+  });
+
+</script>
 
 <% if logged_in? %>
 

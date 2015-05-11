@@ -40,9 +40,11 @@ end
      get 'mycalender' =>'users#calender'
      get 'search' => 'users#search'
 
-     post 'find' =>'events#find'
-  resources :events do
-  resources :comments end
+     post 'find' =>'groups#find'
+
+
+  resources :events 
+  resources :comments 
      
 
 

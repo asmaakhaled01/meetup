@@ -78,13 +78,15 @@ a {
     <%= fields_for :interest do |t| %>
        <%= t.label :interest %>
        <br>
-       <%= t.text_field :interest, id:"interest" ,value:"tyytytytyty" %>
+       <%= t.text_field :interest, id:"interest" ,value:"" %>
        <br/> 
         Pick up to 15 topics
     </br>
     <input type="button" id="art" class="btn btn-default" value="Art" name="Art" />
     <input type="button" id="food" class="btn btn-default" value="Food" name="Food" />  
-
+    <input type="button" id="fun" class="btn btn-default" value="Fun" name="Fun" />
+    <input type="button" id="computer" class="btn btn-default" value="Computer" name="Computer" /> 
+    <input type="button" id="science" class="btn btn-default" value="Science" name="Science" /> 
     <% end %>  
   </div>
 
@@ -105,8 +107,6 @@ a {
     <%= f.text_field :MembersName%>
   </div> 
 
-
-
  <div class="well">
    <%= f.label :image %><br>
   <%= f.file_field :g_image %>
@@ -125,12 +125,11 @@ a {
 
 
 <script>
-var submit = document.getElementByName("commit")[0];
 
-submit.click(function() {
-  alert("hereee");
+$( "#location" ).focusout(function() {
+
   var geocoder2 = new google.maps.Geocoder();
-  var address = document.getElementById("geocomplete").value;
+  var address = document.getElementById("location").value;
   geocoder2.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK)
     {
@@ -139,22 +138,6 @@ submit.click(function() {
       
       document.getElementById("lang").value = lng; 
       document.getElementById("lat").value = lat; 
-
-      var option = document.getElementById("option").value;
-      var search_text = document.getElementById("search_text").value;
-
-
-      var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
-
-      posting.done(function( data ) {
-
-        $("#result").html(data);
-
-
-      });
-
-
-
     }
   });
 
@@ -177,14 +160,37 @@ submit.click(function() {
         
     });
 
-</script>
+    $( "#fun" ).click(function() {
+        var value = $( "#fun" ).val()+", ";
+        $( "#fun" ).hide();
+        str = str + value
+        document.getElementById('interest').value = str;
+        
+    });
 
+    $( "#computer" ).click(function() {
+    var value = $( "#computer" ).val()+", ";
+    $( "#computer" ).hide();
+    str = str + value
+    document.getElementById('interest').value = str;
+        
+    });
+
+    $( "#science" ).click(function() {
+    var value = $( "#science" ).val()+", ";
+    $( "#science" ).hide();
+    str = str + value
+    document.getElementById('interest').value = str;
+        
+     });
+
+</script>
 
 
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
 <%= javascript_include_tag "geocomplete" %> 
+
 <script>
 
   var geocoder;
@@ -196,7 +202,9 @@ function successFunction(position) {
 
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
-       
+      document.getElementById("lang").value = lng; 
+      document.getElementById("lat").value = lat; 
+
     codeLatLng(lat, lng)
 }
 
@@ -209,14 +217,14 @@ geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(lat, lng);
     geocoder.geocode({'latLng': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-      console.log(results)
+     
         if (results[1]) {
 
             for (var i=0; i<results[0].address_components.length; i++) {
             for (var b=0;b<results[0].address_components[i].types.length;b++) {
 
 
-                if (results[0].address_components[i].types[b] == "establishment") {
+                if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
                     city= results[0].address_components[i];
                     break;
                 }

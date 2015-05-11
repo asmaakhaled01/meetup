@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
-  
+  skip_before_filter :verify_authenticity_token
   def join
     @group = Group.find(params[:group_id])
     @member = Member.new(:user_id => params[:user_id], :group_id => params[:group_id])
@@ -49,6 +49,9 @@ class GroupsController < ApplicationController
 
 
 def create 
+  puts  params[:MembersName] 
+  puts  params[:lat]
+
   @group = Group.new(group_params) 
   @inter = Interest.new(interest_params) 
   puts "------------------------------"
@@ -102,6 +105,7 @@ end
   end
 
 def find
+  
   @interest = params[:interest];
   @search_options =  params[:option];
   @search_text =  params[:search_text];
