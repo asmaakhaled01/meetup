@@ -127,7 +127,6 @@ a {
   
 </div>
 
-
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <%= javascript_include_tag "geocomplete" %>  
@@ -135,11 +134,7 @@ a {
 <script type="text/javascript"> 
 
 $( "#btn" ).click(function() {
-
-
-
   
-
   var geocoder2 = new google.maps.Geocoder();
   var address = document.getElementById("geocomplete").value;
   geocoder2.geocode( { 'address': address}, function(results, status) {
@@ -156,9 +151,9 @@ $( "#btn" ).click(function() {
       var interest = document.getElementById("interest").value;
 
       var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
-      alert("here")
+            
       posting.done(function( data ) {
-            alert("done")
+
            $("#result").html(data);
 
 
@@ -201,7 +196,6 @@ function codeLatLng(lat, lng) {
 
         for (var i=0; i<results[0].address_components.length; i++) {
           for (var b=0;b<results[0].address_components[i].types.length;b++) {
-//console.log(results[0].address_components[i].types[b])
 
             if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
               city=results[0].address_components[i];

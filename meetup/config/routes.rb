@@ -41,10 +41,10 @@ end
      get 'search' => 'users#search'
 
      post 'find' =>'groups#find'
-  
 
-  resources :events do
-  resources :comments end
+
+  resources :events 
+  resources :comments 
      
 
 
