@@ -49,6 +49,9 @@ class GroupsController < ApplicationController
 
 
 def create 
+  puts  params[:MembersName] 
+  puts  params[:lat]
+
   @group = Group.new(group_params) 
   @inter = Interest.new(interest_params) 
   puts "------------------------------"
