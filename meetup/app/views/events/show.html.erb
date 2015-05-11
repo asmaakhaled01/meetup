@@ -31,6 +31,15 @@ h1{
           Description :  <%= @event.desc %>
         </h2>     
           Comments
+
+<table>
+          <% @comments.each do |comment| %>
+      <tr>
+        <td><%= comment.body %></td>
+        <td><%= comment.user_id %></td>
+      </tr>
+      <% end %>
+ </table>
 <% if logged_in? %>
 
 <%= link_to 'Edit', edit_event_path(@event) %> 

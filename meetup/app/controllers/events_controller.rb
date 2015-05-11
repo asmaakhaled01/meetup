@@ -37,6 +37,7 @@ end
     else
       @flag_attend=0  
     end  
+    @comments  = Comment.where("event_id = ? ", event_id );
     @event = Event.find(event_id)
   end
 
