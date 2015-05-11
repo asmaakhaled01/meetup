@@ -72,6 +72,7 @@ a {
 
   <p id="notice"><%= notice %></p>
 
+<%= csrf_meta_tag %> 
 
 <select id="interest" name="interest">
   <option value="any">any</option>
@@ -133,25 +134,10 @@ a {
 
 $( "#btn" ).click(function() {
 
-  alert("here");
-  var lat = "29.905923799999997" ;
-  var lng = "31.192707400000003";
+
+
   
-  document.getElementById("long").value = lng; 
-  document.getElementById("lat").value = lat; 
 
-  var option = document.getElementById("option").value;
-  var search_text = document.getElementById("search_text").value;
-  var interest = document.getElementById("interest").value;
-
-  var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
-
-  posting.done(function( data ) {
-
-    $("#result").html(data);
-
-
-  });
   var geocoder2 = new google.maps.Geocoder();
   var address = document.getElementById("geocomplete").value;
   geocoder2.geocode( { 'address': address}, function(results, status) {
@@ -165,13 +151,13 @@ $( "#btn" ).click(function() {
 
       var option = document.getElementById("option").value;
       var search_text = document.getElementById("search_text").value;
-
+      var interest = document.getElementById("interest").value;
 
       var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
-
+      alert("here")
       posting.done(function( data ) {
-
-        $("#result").html(data);
+            alert("done")
+           $("#result").html(data);
 
 
       });
