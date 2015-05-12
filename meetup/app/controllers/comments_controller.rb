@@ -24,19 +24,9 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    puts "in create"
-    @comment = Comment.new(comment_params)
-
-    respond_to do |format|
-      if @comment.save
-        
-        format.html { render :new }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new }
-        format.json { render json: @comment.errors, status: @comment.id }
-      end
-    end
+@event = Event.find(params[:event_id]) 
+@comment = @event.comments.create(comment_params)
+redirect_to event_path(@event)
   end
 
   # PATCH/PUT /comments/1
@@ -56,11 +46,10 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
+    @event = Event.find(@comment.event_id) 
     @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to event_path(@event)
+
   end
 
   private
@@ -74,3 +63,5 @@ class CommentsController < ApplicationController
       params.require(:comment).permit(:body, :user_id, :event_id )
     end
 end
+
+

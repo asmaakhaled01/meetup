@@ -42,9 +42,9 @@ end
 
      post 'find' =>'groups#find'
 
-
-  resources :events 
-  resources :comments 
+     resources :comments
+  resources :events do
+  resources :comments end
      
 
 
