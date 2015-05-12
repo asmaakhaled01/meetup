@@ -43,28 +43,25 @@ end
 
   # GET /events/new
   def new
+     @flag=0 
     @group_id=params[:group_id]
     @event = Event.new
   end
 
   # GET /events/1/edit
   def edit
+     @flag=1
   end
 
   # POST /events
   # POST /events.json
   def create
-    raise event_params.inspect
     @event = Event.new(event_params)
-
-
     users = Member.where( :group_id =>  @event.group_id )
-
     users.each do|n|
        @val= User.find(n.user_id)
        UserMailer.event_creation(@val,@event).deliver
     end
-
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -93,11 +90,9 @@ end
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+    @group = Group.find(@event.group_id)
     @event.destroy
-    respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to @group
   end
 
   private

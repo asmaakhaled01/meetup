@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511090912) do
+ActiveRecord::Schema.define(version: 20150512165207) do
 
   create_table "attendens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20150511090912) do
     t.datetime "ev_image_updated_at"
     t.string   "long",                  limit: 255
     t.string   "lat",                   limit: 255
+    t.integer  "user_id",               limit: 4
   end
 
   add_index "events", ["group_id"], name: "index_events_on_group_id", using: :btree

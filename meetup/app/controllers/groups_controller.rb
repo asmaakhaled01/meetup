@@ -34,6 +34,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/new
   def new
+     @flag=0 
     if logged_in?
       @group = Group.new
     else
@@ -44,6 +45,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+    @flag=1
   end
 
 

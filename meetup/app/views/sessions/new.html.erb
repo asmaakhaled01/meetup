@@ -1,17 +1,21 @@
-<% provide(:title, "Log in") %>
+<style>
+.container{
+margin-left: 550px;
+width:500px;
 
-    <h1>Log in</h1>
-   
+
+}
+</style>
+<div class="container">
+    <h1 class="page-header text-primary">Login</h1>
     <%= form_for(:session, url: login_path) do |f| %>
 
       <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.email_field :email, class: 'form-control' ,placeholder: "Enter email" %>
 
       <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
-
+      <%= f.password_field :password, class: 'form-control', placeholder: "Enter password" %>
+<br>
       <%= f.submit "Log in", class: "btn btn-primary" %>
     <% end %>
-
-    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
- 
+ </div>

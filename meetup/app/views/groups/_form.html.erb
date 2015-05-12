@@ -1,5 +1,9 @@
 <style type="text/css" media="screen">
+.container{
+margin-left: 550px;
+width:500px;
 
+}
 
 fieldset { width: 320px; margin-top: 20px}
 fieldset strong { display: block; margin: 0.5em 0 0em; }
@@ -52,62 +56,68 @@ a {
 }
 </style>
 
-
+<div class="container">
+    <% if @flag==0  %>
+  <h1 class="page-header text-primary">Create Group</h1>
+  <% end %>
+  <% if @flag==1  %>
+  <h1 class="page-header text-primary">Edit</h1>
+  <% end %>
 <%= form_for(@group) do |f| %>
   <% if @group.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-danger">
       The form contains <%= pluralize(@group.errors.count, "error") %>.
-    </div>
-    <ul>
+          <ul>
     <% @group.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
     </ul>
+    </div>
+
   </div>
 <% end %>
 
-  <div class="well">
+  <div class="form-group">
     <%= f.label :location %><br>
-    <%= f.text_field :location, id:"location" %>
+    <%= f.text_field :location, id:"location", class: 'form-control' %>
   </div>
 
 
-  <div class="well">
+  <div class="form-group">
     
     <%= fields_for :interest do |t| %>
        <%= t.label :interest %>
        <br>
-       <%= t.text_field :interest, id:"interest" ,value:"" %>
-       <br/> 
-        Pick up to 15 topics
+       <%= t.text_field :interest, id:"interest" ,value:"", class: 'form-control', placeholder: "Pick up to 15 topics" %>
     </br>
-    <input type="button" id="art" class="btn btn-default" value="Art" name="Art" />
-    <input type="button" id="food" class="btn btn-default" value="Food" name="Food" />  
-    <input type="button" id="fun" class="btn btn-default" value="Fun" name="Fun" />
-    <input type="button" id="computer" class="btn btn-default" value="Computer" name="Computer" /> 
-    <input type="button" id="science" class="btn btn-default" value="Science" name="Science" /> 
+    <input type="button" id="art" class="btn btn-info" value="Art" name="Art" />
+    <input type="button" id="food" class="btn btn-info" value="Food" name="Food" />  
+    <input type="button" id="fun" class="btn btn-info" value="Fun" name="Fun" />
+    <input type="button" id="computer" class="btn btn-info" value="Computer" name="Computer" /> 
+    <br><br>
+    <input type="button" id="science" class="btn btn-info" value="Science" name="Science" /> 
     <% end %>  
   </div>
 
 
-  <div class="well">
+  <div class="form-group">
     <%= f.label :name %><br>
-    <%= f.text_field :name%>
+    <%= f.text_field :name, class: 'form-control', placeholder:"Enter Group Name"%>
   </div>
 
 
-  <div class="well">
+  <div class="form-group">
     <%= f.label :description %><br>
-    <%= f.text_field :description%>
+    <%= f.text_field :description, class: 'form-control', class: 'form-control', placeholder:"Enter Group Description"%>
   </div>
 
- <div class="well">
+ <div class="form-group">
     <%= f.label :MambersName %><br>
-    <%= f.text_field :MembersName%>
+    <%= f.text_field :MembersName, class: 'form-control', placeholder:"Enter MambersName"%>
   </div> 
 
- <div class="well">
+ <div class="form-group">
    <%= f.label :image %><br>
   <%= f.file_field :g_image %>
 </div>
@@ -119,10 +129,10 @@ a {
 </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :submit , class: "btn btn-primary" %>
   </div>
 <% end %>
-
+</div>
 
 <script>
 
