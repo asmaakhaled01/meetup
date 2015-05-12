@@ -12,5 +12,5 @@ has_attached_file :g_image, :styles => { :medium => "300x300>", :thumb => "100x1
 validates_attachment_content_type :g_image, :content_type => /\Aimage\/.*\Z/
 
 
-validates :name, :location , :description , :MembersName, :g_image ,presence: true
+validates :name, :location , :description , :MembersName, :g_image , presence: true
 end

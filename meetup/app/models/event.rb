@@ -7,5 +7,5 @@ has_attached_file :ev_image, :styles => { :medium => "300x300>", :thumb => "100x
 validates_attachment_content_type :ev_image, :content_type => /\Aimage\/.*\Z/
 
 
-validates :name, :ev_image , :desc ,:location , :date presence: true
+validates :name, :ev_image , :desc ,:location , :date ,presence: true
 end

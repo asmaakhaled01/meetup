@@ -17,7 +17,7 @@ h1{
 	<div class="col-md-4"><%= link_to 'Create Event', {:controller => "events", :action => "new", :group_id => @group.id }, class:"btn btn-primary" %></div>
 	<% end %>
 	<% end %>
-	<div class="col-md-4"><%= link_to 'Calender', new_event_path , class:"btn btn-info" %></div>
+	
 
 <% if logged_in? and current_user.id != @group.user_id  %>
 	<% if @flag_join==1 %>
@@ -26,7 +26,7 @@ h1{
 	<% end %>
 
 		
-	<h2>Listing Events</h2>
+	
 	<% @events.each do |event| %>
 	<div class="thumbnail">
 		<div class="caption">
@@ -42,12 +42,7 @@ h1{
 						<h4>
 							Date: <%= event.date %>
 						</h4>
-	<% if logged_in? %>
-	<% if @group.user_id==current_user.id %>
-						<%= link_to 'Edit', edit_event_path(event) %> | 
-						<%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
-									<% end %>
-	<% end %>
+
 					</td>
 
 				</tr>
@@ -56,11 +51,12 @@ h1{
 		</div>
 	</div>
 			<% end %>
-				<% if logged_in? %>
-	<% if @group.user_id==current_user.id %>
-			<%= link_to 'Edit', edit_group_path(@group) %> |
-				<% end %>
-	<% end %>
+ <% if logged_in? %>
+            <% if @group.user_id==current_user.id %>
+            <%= link_to 'Edit', edit_group_path(@group),class:"btn btn-default" %>
+            <%= link_to 'Destroy', @group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger" %>
+            <% end %>
+            <% end %>  
 
 			<%= link_to 'Back', groups_path %>
 </div>
