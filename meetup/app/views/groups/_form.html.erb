@@ -126,6 +126,23 @@ a {
 
 <script>
 
+
+
+$( "#geocomplete" ).focusout (function() {
+  
+  var geocoder2 = new google.maps.Geocoder();
+  var address = document.getElementById("geocomplete").value;
+  geocoder2.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK)
+    {
+      var lat = results[0].geometry.location.A ;
+      var lng = results[0].geometry.location.F;
+    }
+  });
+
+});
+
+
 $( "#location" ).focusout(function() {
 
   var geocoder2 = new google.maps.Geocoder();
@@ -202,6 +219,8 @@ function successFunction(position) {
 
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
+    console.log("lat = "+ lat);
+    console.log("lang = "+ lng);
       document.getElementById("lang").value = lng; 
       document.getElementById("lat").value = lat; 
 
