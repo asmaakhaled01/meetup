@@ -1,83 +1,114 @@
-<style >
-#img {
-    opacity: 0.4;
-    filter: alpha(opacity=40); /* For IE8 and earlier */
-}
-</style>
-
-
-<p id="notice"><%= notice %></p>
-
-<div class="container-fluid" style="height: 900px; background: url('<%= @event.ev_image %>') no-repeat center; background-size: cover;">
 
 <div class="container">
-  <h1 class="text-primary"><%= @event.name %></h1>
-  <h1>Number of Attendens : <%= @num_attendens %></h1>
+    <div class="page-header">
+        <h1  class="text-primary"><%= @event.name %></h1>
+    </div>
+    <div class="raw">
+        <div class="col-md-3">
+          <br><br>
+          <img src="<%= @event.ev_image %>" class="img-rounded" style="width:200px ; height:200px;">
+
+          <br><br><br>
+          <ul class="list-group">
+            <li class="list-group-item">Attendence Number<span class="badge"><%= @num_attendens %></span></li>
+
+              <% if @flag_attend==1 %>
+                <li class="list-group-item"> Join Event 
+                     <%= link_to 'Attend', {:controller => "events", :action => "attend", :user_id => current_user.id, :event_id => @event.id }, class:"btn btn-primary" %>
+                     </li>
+              <% end %>
 
 
-  <% if logged_in? %>
-  <% if @event.user_id==current_user.id %>
-<%= link_to 'Edit', edit_event_path(@event) %> | 
-<%= link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
-    <% end %>
+              <% if logged_in? %>
+                <% if @event.user_id==current_user.id %>
+                <li class="list-group-item"> Edit Event Info 
+                    <%= link_to 'Edit', edit_event_path(@event), class:"btn btn-warning" %> </li>   
+                 <li class="list-group-item"> Delete Event Info 
+                     <%= link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' } , class:"btn btn-danger" %> </li>
+
+               <% end %>
+              <% end %>     
 
 
-  <% if @flag_attend==1 %>
-  <div class="col-md-4" ><%= link_to 'Attend', {:controller => "events", :action => "attend", :user_id => current_user.id, :event_id => @event.id }, class:"btn btn-success" %></div>
-  <% end %>
 
-        <h2>
-          Date : <%= @event.date %>
-        </h2>
-        <h2>
-          Location :  <%= @event.location %>
-        </h2>
-        <h2>
-          Description :  <%= @event.desc %>
-        </h2>     
-          Comments
-<table>
-  <% @comments.each do |comment| %>
 
-  <tr id="<%= comment.id %>">
-  
+          </ul>
+        </div>
 
-   <td><image src="<%=User.find(comment.user_id).image.url(:thumb)%>" width="42" height="42" ><%=User.find(comment.user_id).name%><br>
-    <%= comment.body %>
-      <% if comment.user_id == current_user.id %>
-  <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
-    </td>
+        <div class="col-md-9">
+            <div class="page-header">
+            <!-- Event Info part-->
+                <h3  class="text-primary">Basic Info </h3>
+             </div>
+             <strong> Date : </strong> <%= @event.date %> <br>
+             <strong> Location : </strong> <%= @event.location %> <br>
+             <div class="page-header">
+                <h3 >Event Aim </h3>
+             </div> <%= @event.desc %> <br>
 
-  
-  </tr>
-  
-      <% end %>
+             <!-- Comment part-->
+             <div class="page-header">
+                <h3 >Comments </h3>
+             </div>
+
+             <!--Display Comment part-->
+              <% @comments.each do |comment| %>
+
+                  <div id="<%= comment.id %>" class="well well-lg">
+
+                      <div class="row">
+                          <div class="col-md-2">
+                            <img src="<%=User.find(comment.user_id).image.url%>" style="height:40px; width:40px;" >
+                          </div>
+                          <div class="col-md-10">
+                             <strong><%=User.find(comment.user_id).name%></strong>
+                              <%= comment.body %> <br>
+                               <% if comment.user_id == current_user.id %>
+                                    <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+                              <% end %>
+                          
+                          </div>
+
+                     </div>     
+                        
+                      
+                  </div>
+                  
+              <% end %>
+
+             <!-- add new comment form --> 
+            <% if logged_in? %>
+
+                <%= csrf_meta_tag %> 
+                <%= form_for([@event,@event.comments.build]) do |f| %>
+                     <div class="form-group"> 
+                         <%= f.label :body %><br> 
+                         <%= f.text_area :body ,class:"form-control",placeholder:"Add your comment here....."%> 
+                         <%=  f.hidden_field :user_id  ,value: current_user.id %> 
+                     </div> 
+
+                     <div> 
+                     <%= f.submit class:"btn btn-success" %> 
+                     </div> 
+                <% end %>
+
+           
+          <% end %>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
 
         
 
-      
- </table>
 
 
-<% if logged_in? %>
 
-<%= csrf_meta_tag %> 
-<%= form_for([@event,@event.comments.build]) do |f| %>
- <div class="form-group"> 
- <%= f.label :body %><br> 
- <%= f.text_area :body ,class:"form-control",placeholder:"Add your comment here....."%> 
- <%=  f.hidden_field :user_id  ,value: current_user.id %> 
- </div> <div class="col-sm-10"> 
- <%= f.submit class:"btn btn-success" %> 
- </div> 
-<% end %>
-
-
-<%= link_to 'Edit', edit_event_path(@event) %> 
-
-<% end %>
    
   </div>
 </div>  

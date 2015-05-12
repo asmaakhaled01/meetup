@@ -54,7 +54,7 @@ end
   # POST /events
   # POST /events.json
   def create
-    raise event_params.inspect
+   
     @event = Event.new(event_params)
 
 

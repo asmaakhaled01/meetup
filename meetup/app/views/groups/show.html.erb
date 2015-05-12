@@ -5,7 +5,9 @@
 	</div>
 	<div class="raw">
 		<div class="col-md-3">
-		<br><br><br><br>
+		<br><br>
+			<img src="<%= @group.g_image %>" class="img-rounded" style="width:200px ; height:200px;">
+			<br><br><br>
 			<ul class="list-group">
 				  <li class="list-group-item">Members<span class="badge"><%= @num_members %></span></li>
 
@@ -14,9 +16,12 @@
 				<% if logged_in? and current_user.id != @group.user_id  %>				  
 					<% if @flag_join==1 %>
 				  		<li class="list-group-item">
-
-						Join Group <%= link_to 'Join', {:controller => "groups", :action => "join", :user_id => current_user.id, :group_id => @group.id }, class:"btn btn-success " %>
-
+						Join Group
+						<span class="pull-right">
+							<%= link_to 'Join', {:controller => "groups", :action => "join", :user_id => current_user.id, :group_id => @group.id }, class:"btn btn-success" %>
+							</span>
+						</div>
+						
 			   		  </li>
 					<% end %>
 				<% end %>	
@@ -45,6 +50,12 @@
 
 		<div class="col-md-9">
 			<div class="page-header">
+				<h4>Group Description :</h4>
+				
+			</div>
+			<p> <%= @group.description %> </p>
+			<div class="page-header">
+
 				<h4>Event Listing</h4>
 			</div>
 			<% @events.each do |event| %>
