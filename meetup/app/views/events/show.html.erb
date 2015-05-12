@@ -1,16 +1,14 @@
-<style>
-h1{
-  text-align: center;
+<style >
+#img {
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
 }
 </style>
 
+
 <p id="notice"><%= notice %></p>
 
-
-<div class="container-fluid">
-  <div class="jumbotron" style="background-image: url('<%= @event.ev_image %>'); width: 100%;height:300px;no-repeat">
-  </div>
-</div> 
+<div class="container-fluid" style="height: 900px; background: url('<%= @event.ev_image %>') no-repeat center; background-size: cover;">
 
 <div class="container">
   <h1 class="text-primary"><%= @event.name %></h1>
@@ -81,7 +79,8 @@ h1{
 
 <% end %>
    
-  </div>  
+  </div>
+</div>  
 
 
 
