@@ -18,56 +18,65 @@
 
 <div class="container">
 
+      <%= csrf_meta_tag %> 
+      <!--Search bar  -->
+      <div class="bs-example" data-example-id="navbar-form">
+          <nav class="navbar navbar-default">
+              <div class="container-fluid">
 
-<!--Search bar  -->
-<div class="bs-example" data-example-id="navbar-form">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
+                  <div class="navbar-header">
+               
+                      <button class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-2" data-toggle="collapse" type="button"></button>
 
-            <div class="navbar-header">
-         
-                <button class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-2" data-toggle="collapse" type="button"></button>
-
-        </div>
-        <div id="bs-example-navbar-collapse-2" class="collapse navbar-collapse">
-      
-            <div class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-            </div>
-
-        </div>
-  
-    </div>
-    
-</nav>
-</div>
-<!--End Search bar  -->
+              </div>
+              <div id="bs-example-navbar-collapse-2" class="collapse navbar-collapse">
+            
+                  <div class="navbar-form navbar-left" role="search">
+                      <div class="form-group">
+                     
+                          <input id="search_text" name="search_text" type="text" placeholder="Find meetups" value="" placeholder="Search" class="form-control"/>
 
 
 
-  <div class="row">
-    <div class="col-md-4">
+                          <input id="geocomplete" name="geocomplete" type="text" placeholder="Type in an address" value="" placeholder="Search" class="form-control"/>
+                          
 
-      
-    </div>
-    <div class="col-md-2"> miles </div>
-    <div class="col-md-2"> location </div>
-    <div class="col-md-2">
-      <%= link_to 'My Calender', mycalender_path %>
-    </div>
+                        <!-- drop down of miles  -->
+                      <div class="form-group">
+                        <select id="option" name="option" class="form-control">
+                            <option   value="1">1 mile</option>
+                            <option value="3">3 miles</option>
+                            <option value="5">5 miles</option>
+                            <option value="any distance">any distance</option>
+                            <input type="hidden" name="long" id ="long"/>
+                            <input type="hidden" name="lat" id ="lat"/>
+                        </select>
+                      </div>
 
-  </div>
+                        <!-- end of drop down of miles  -->
+                      <button type="button" class="btn btn-default" id="btn">Serach</button>  
+                      </div>
+
+                      <%= link_to 'My Calender', mycalender_path , class: "btn btn-default" %>
+                  </div>
+
+              </div>
+        
+          </div>
+          
+      </nav>
+      </div>
+      <!--End Search bar  -->
+
 </div>
 
 <div class="container">
 
   <p id="notice"><%= notice %></p>
 
-<%= csrf_meta_tag %> 
 
-<select id="interest" name="interest">
+
+<!-- <select id="interest" name="interest">
   <option value="any">any</option>
   <option value="Science">Science</option>
   <option value="Fun">Fun</option>
@@ -75,45 +84,30 @@
   <option value="Art">Art</option>
   <option value="Computer">Computer</option>
 </select>
-
-<input id="search_text" name="search_text" type="text" placeholder="find meetups" value="" />
-
-<input id="geocomplete" name="geocomplete" type="text" placeholder="Type in an address" value="" />
-
-<select id="option" name="option">
-  <option value="1">1 mile</option>
-  <option value="3">3 miles</option>
-  <option value="5">5 miles</option>
-  <option value="any distance">any distance</option>
-  <input type="hidden" name="long" id ="long"/>
-  <input type="hidden" name="lat" id ="lat"/>
-</select>
-
-
-
-<button id="btn" >Search</button> 
-
+ -->
 
 <!-- case normal user and is logged and if any userdisplay site without logging -->
 <% if logged_in? and current_user.is_admin == false  or !logged_in?%>
 
   <div id="result" class="row">
     <% @groups.each do |group| %>
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-        <%= image_tag group.g_image.url(:thumb) %>
-        <div class="caption">
-          <h3><%= group.name %></h3>
-          <p> <%= group.description %></p>
-          <p> <%= link_to 'Show', group , class:"btn btn-primary" %>
-           
-          </p>
+        <div class="col-sm-6 col-md-4">
+
+            <div class="thumbnail">
+                <div class="page-header">
+                    <h3 class="primary"><%= group.name  %></h3>
+                </div>
+                <%= link_to group do %>
+                  <%= image_tag group.g_image.url , style: "width:300px;height:300px;" %>
+                <% end %>
+              
+            </div>
+
         </div>
-      </div>
-    </div>
     <% end %>
   </div>
- <% else %>
+
+<% else %>
 <!-- case Admin user and is logged  -->
 <%= link_to 'Create Group', new_group_path %>
     <table class="table table-striped">

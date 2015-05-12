@@ -1,17 +1,14 @@
 
-<h>hello in find</h>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-    </tr>
-  </thead>
-
-  <tbody>
     <% @groups.each do |group| %>
-      <tr>
-        <td><%= group.name %></td>
-      </tr>
+         <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <div class="page-header">
+                    <h3 class="primary"><%= group.name  %></h3>
+                </div>
+                <%= link_to group do %>
+                  <%= image_tag group.g_image.url , style: "width:300px;height:300px;" %>
+                <% end %>
+              
+            </div>
     <% end %>
-  </tbody>
-</table>
+</div>
