@@ -49,13 +49,13 @@ class GroupsController < ApplicationController
 
 
 def create 
-  puts  params[:MembersName] 
+  puts  "***********************************"
   puts  params[:lat]
-
+  puts  params[:lang] 
+  puts  "***********************************"
   @group = Group.new(group_params) 
   @inter = Interest.new(interest_params) 
-  puts "------------------------------"
-  puts @inter['interest']
+
   group_id=Group.last.id 
   
   array = @inter['interest'].split(/, /)
@@ -90,8 +90,6 @@ end
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    puts "================================"
-    puts @group.id
     # delete event
     Event.where(:group_id => @group.id).destroy_all
     # delete members

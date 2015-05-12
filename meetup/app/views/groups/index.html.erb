@@ -166,7 +166,8 @@ a {
 
 <script type="text/javascript"> 
 
-$( "#btn" ).click(function() {
+
+$( "#geocomplete" ).focusout (function() {
   
   var geocoder2 = new google.maps.Geocoder();
   var address = document.getElementById("geocomplete").value;
@@ -175,27 +176,26 @@ $( "#btn" ).click(function() {
     {
       var lat = results[0].geometry.location.A ;
       var lng = results[0].geometry.location.F;
-      
-      document.getElementById("long").value = lng; 
-      document.getElementById("lat").value = lat; 
+      document.getElementById("lat").value = lat;
+      document.getElementById("long").value = lng;
+    }
+  });
 
+});
+
+$( "#btn" ).click(function() {
+  
+      var lat = document.getElementById("lat").value;
+      var lng = document.getElementById("long").value;
       var option = document.getElementById("option").value;
       var search_text = document.getElementById("search_text").value;
       var interest = document.getElementById("interest").value;
-
       var posting = $.post( "find", { long: lng , lat: lat , option: option, search_text: search_text ,interest: interest   } );
             
       posting.done(function( data ) {
-
            $("#result").html(data);
-
-
       });
 
-
-
-    }
-  });
 
 });
 
