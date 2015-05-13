@@ -1,13 +1,18 @@
 <p id="notice"><%= notice %></p>
+<div class="container">  
+<div class="page-header">
+        <h1  class="text-primary">List Comments</h1>
+    </div>
 
-<h1>Listing Comments</h1>
-
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Body</th>
-      <th>User</th>
-      <th>Event</th>
+      <th>User ID</th>
+      <th>Event ID</th>
+      <th>Show Action</th>
+      <th>Edit Action</th>
+      <th>Delete Action</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,11 +21,11 @@
     <% @comments.each do |comment| %>
       <tr>
         <td><%= comment.body %></td>
-        <td><%= comment.user %></td>
-        <td><%= comment.event %></td>
-        <td><%= link_to 'Show', comment %></td>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= comment.user_id %></td>
+        <td><%= comment.event_id %></td>
+        <td><%= link_to 'Show', comment , class: "btn btn-info" %></td>
+        <td><%= link_to 'Edit', edit_comment_path(comment) , class: "btn btn-warning"%></td>
+        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger"%></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +33,4 @@
 
 <br>
 
-<%= link_to 'New Comment', new_comment_path %>
+</div>

@@ -10,8 +10,6 @@
 			<br><br><br>
 			<ul class="list-group">
 				  <li class="list-group-item">Members<span class="badge"><%= @num_members %></span></li>
-
-
 				
 				<% if logged_in? and current_user.id != @group.user_id  %>				  
 					<% if @flag_join==1 %>

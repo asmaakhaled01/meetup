@@ -11,13 +11,14 @@
           <br><br><br>
           <ul class="list-group">
             <li class="list-group-item">Attendence Number<span class="badge"><%= @num_attendens %></span></li>
-
+            <% if logged_in? and current_user.id != @event.user_id  %>          
+         
               <% if @flag_attend==1 %>
                 <li class="list-group-item"> Join Event 
                      <%= link_to 'Attend', {:controller => "events", :action => "attend", :user_id => current_user.id, :event_id => @event.id }, class:"btn btn-primary" %>
                      </li>
               <% end %>
-
+            <% end %>
 
               <% if logged_in? %>
                 <% if @event.user_id==current_user.id %>
@@ -61,9 +62,11 @@
                             <img src="<%=User.find(comment.user_id).image.url%>" style="height:40px; width:40px;" >
                           </div>
                           <div class="col-md-10">
-                             <strong><%=User.find(comment.user_id).name%></strong>
+                            <% @user=User.find(comment.user_id) %>
+                             <strong><%=link_to User.find(comment.user_id).name , @user %></strong>
                               <%= comment.body %> <br>
-                               <% if comment.user_id == current_user.id %>
+                           
+                               <% if  logged_in? and  comment.user_id == current_user.id %>
                                     <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
                               <% end %>
                           
