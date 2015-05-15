@@ -1,23 +1,25 @@
-mysql: &mysql
+default: &default
   adapter: mysql2
-  database: "<%=ENV['OPENSHIFT_APP_NAME']%>"
-  username: "<%=ENV['OPENSHIFT_MYSQL_DB_USERNAME']%>"
-  password: "<%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%>"
-  host:     <%=ENV['OPENSHIFT_MYSQL_DB_HOST']%>
-  port:     <%=ENV['OPENSHIFT_MYSQL_DB_PORT']%>
-
-
-defaults: &defaults
-  pool: 5
-  timeout: 5000
   encoding: utf8
-  <<: *<%= ENV['RAILS_DB'] || "mysql" %>
+  pool: 5
+  username: root
+  password: 123456
+  socket: /var/run/mysqld/mysqld.sock
 
 development:
-  <<: *defaults
+  <<: *default
+  database: meetup_development
 
-test: &test
-  <<: *defaults
+test:
+  <<: *default
+  database: meetup_test
 
 production:
-  <<: *defaults
+  <<: *default
+  adapter: mysql2
+  database: "<%=ENV['OPENSHIFT_APP_NAME']%>"
+  username: "<%=ENV['OPENSHIFT_MYSQL_DB_USERNAME']%>" 
+  password: "<%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%>" 
+  host: <%=ENV['OPENSHIFT_MYSQL_DB_HOST']%> 
+  port: <%=ENV['OPENSHIFT_MYSQL_DB_PORT']%> 
+  socket: <%=ENV['OPENSHIFT_MYSQL_DB_SOCKET']%>
